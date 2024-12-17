@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quotes_app/components/theme_grid_item.dart';
+import 'package:quotes_app/components/appearance_grid_item.dart';
 import 'package:quotes_app/data/appearance_data.dart';
 import 'package:quotes_app/providers/appearance_provider.dart';
 
-class ThemesScreen extends StatelessWidget {
-  const ThemesScreen({super.key});
+class AppearanceScreen extends StatelessWidget {
+  const AppearanceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class ThemesScreen extends StatelessWidget {
                 mainAxisSpacing: 14,
               ),
               itemBuilder: (context, index) {
-                return ThemeGridItem(
+                return AppearanceGridItem(
                   imageUrl: appearanceData[index]['imageUrl'],
                   textFont: appearanceData[index]['textFont'],
                   textColor: appearanceData[index]['textColor'],

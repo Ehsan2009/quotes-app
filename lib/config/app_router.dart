@@ -29,7 +29,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/themes_screen',
-              builder: (context, state) => const ThemesScreen(),
+              builder: (context, state) => const AppearanceScreen(),
             ),
           ],
         ),
