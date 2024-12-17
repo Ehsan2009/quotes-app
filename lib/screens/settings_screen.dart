@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/components/my_list_tile.dart';
 import 'package:quotes_app/providers/theme_provider.dart';

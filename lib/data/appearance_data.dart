@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 
-List<Map<String, dynamic>> themesData = [
+List<Map<String, dynamic>> appearanceData = [
   {
     'imageUrl': 'assets/images/background_1.jpg',
     'textFont': PersianFonts.Yekan,

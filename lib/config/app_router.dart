@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:quotes_app/screens/quotes_screen.dart';
 import 'package:quotes_app/screens/settings_screen.dart';
 import 'package:quotes_app/screens/tabs_screen.dart';
-import 'package:quotes_app/screens/themes_screen.dart';
+import 'package:quotes_app/screens/appearance_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _sectionNavigatorKey = GlobalKey<NavigatorState>();
