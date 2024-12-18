@@ -15,7 +15,7 @@ class QuotesScreen extends StatelessWidget {
           child: Scaffold(
             body: Stack(
               children: [
-                Image.asset(
+                Image.network(
                   appearanceProvider.imageUrl,
                   height: double.infinity,
                   fit: BoxFit.cover,

@@ -18,7 +18,7 @@ class _QuoteTileState extends State<QuoteTile> {
         Center(
           child: Text(
             'Keep Going',
-            style: TextStyle(color: Colors.white, fontSize: 30),
+            style: TextStyle(color: Colors.white, fontSize: 30, backgroundColor: Color.fromARGB(128, 0, 0, 0)),
           ),
         ),
         Positioned(

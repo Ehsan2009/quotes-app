@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/config/app_router.dart';
+import 'package:quotes_app/constants.dart';
 import 'package:quotes_app/providers/appearance_provider.dart';
 import 'package:quotes_app/providers/theme_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: Constants.supabaseUrl,
+    anonKey: Constants.supabaseAnonKey,
+  );
 
   // initialize hive
   await Hive.initFlutter();
@@ -17,18 +25,22 @@ void main() async {
 
   if (appearanceBox.isEmpty) {
     await appearanceBox.put(
-        'background_image', 'assets/images/background_1.jpg');
+        'background_image', 'https://acurzzhfvsuymnvoafei.supabase.co/storage/v1/object/public/images/pexels-yunustug-29821056.jpg');
   }
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => AppearanceProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ThemeProvider()),
+          ChangeNotifierProvider(create: (context) => AppearanceProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {

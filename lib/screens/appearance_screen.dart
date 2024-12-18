@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/components/appearance_grid_item.dart';
-import 'package:quotes_app/data/appearance_data.dart';
 import 'package:quotes_app/providers/appearance_provider.dart';
+import 'package:quotes_app/services/supabase_services.dart';
 
-class AppearanceScreen extends StatelessWidget {
+class AppearanceScreen extends StatefulWidget {
   const AppearanceScreen({super.key});
+
+  @override
+  State<AppearanceScreen> createState() => _AppearanceScreenState();
+}
+
+class _AppearanceScreenState extends State<AppearanceScreen> {
+  final supabaseServices = SupabaseServices();
+  List<String> images = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getImages();
+  }
+
+  void getImages() async {
+    final fetchedImages = await supabaseServices.fetchImages();
+    setState(() {
+      images = fetchedImages;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +40,7 @@ class AppearanceScreen extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(16),
             child: GridView.builder(
-              itemCount: appearanceData.length,
+              itemCount: images.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: 60 / 100,
@@ -28,13 +49,10 @@ class AppearanceScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 return AppearanceGridItem(
-                  imageUrl: appearanceData[index]['imageUrl'],
-                  textFont: appearanceData[index]['textFont'],
-                  textColor: appearanceData[index]['textColor'],
-                  isSelected:
-                      appearanceProvider.imageUrl == appearanceData[index]['imageUrl']
-                          ? true
-                          : false,
+                  imageUrl: images[index],
+                  isSelected: appearanceProvider.imageUrl == images[index]
+                      ? true
+                      : false,
                 );
               },
             ),

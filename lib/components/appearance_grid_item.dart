@@ -1,19 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/providers/appearance_provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AppearanceGridItem extends StatelessWidget {
   const AppearanceGridItem({
     super.key,
     required this.imageUrl,
-    required this.textFont,
-    required this.textColor,
     required this.isSelected,
   });
 
   final String imageUrl;
-  final TextStyle textFont;
-  final Color textColor;
   final bool isSelected;
 
   @override
@@ -27,7 +25,8 @@ class AppearanceGridItem extends StatelessWidget {
             return GestureDetector(
               onTap: () async {
                 // Access the existing AppearanceProvider instance
-                final appearanceProvider = Provider.of<AppearanceProvider>(context, listen: false);
+                final appearanceProvider =
+                    Provider.of<AppearanceProvider>(context, listen: false);
 
                 // Toggle appearance (change background image)
                 await appearanceProvider.toggleAppearance(imageUrl);
@@ -58,34 +57,36 @@ class AppearanceGridItem extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(5),
-        decoration: isSelected ? BoxDecoration(
-          border: Border.all(color: Colors.green.shade900, width: 1),
-          borderRadius: BorderRadius.circular(16),
-        ) : null,
+        decoration: isSelected
+            ? BoxDecoration(
+                border: Border.all(color: Colors.green.shade900, width: 1),
+                borderRadius: BorderRadius.circular(16),
+              )
+            : null,
         child: Container(
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Stack(
-            children: [
-              Image.asset(
-                imageUrl,
-                height: double.infinity,
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            height: double.infinity,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => Shimmer.fromColors(
+              baseColor: Colors.grey.shade700,
+              highlightColor: Colors.grey.shade500,
+              child: Container(
                 width: double.infinity,
-                fit: BoxFit.cover,
+                height: double.infinity,
+                color:
+                    Colors.grey.shade700, // A solid color to simulate the image
               ),
-              Center(
-                child: Text(
-                  'الفبا',
-                  style: textFont.copyWith(
-                    color: textColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-            ],
+            ),
+            maxHeightDiskCache: 1000,
+            errorWidget: (context, url, error) => Center(
+              child: Icon(Icons.error, color: Colors.red),
+            ),
           ),
         ),
       ),
