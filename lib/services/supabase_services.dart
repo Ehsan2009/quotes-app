@@ -16,6 +16,8 @@ class SupabaseServices {
         return supabase.storage.from('images').getPublicUrl(file.name);
       }).toList();
 
+      print(imageUrls);
+
       return imageUrls;
     } catch (error) {
       print('Error fetching images: $error');

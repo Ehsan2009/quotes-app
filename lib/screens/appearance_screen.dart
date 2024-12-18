@@ -24,7 +24,13 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
   void getImages() async {
     final fetchedImages = await supabaseServices.fetchImages();
     setState(() {
-      images = fetchedImages;
+      images = fetchedImages
+          .where((url) =>
+              url != null &&
+              url.isNotEmpty &&
+              !url.contains('.emptyFolderPlaceholder'))
+          .toList();
+      ;
     });
   }
 
