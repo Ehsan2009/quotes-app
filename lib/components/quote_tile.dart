@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
 class QuoteTile extends StatefulWidget {
-  const QuoteTile({super.key});
+  const QuoteTile({
+    super.key,
+    required this.quote,
+    required this.author,
+    required this.onShareQuote,
+    required this.isSharing,
+  });
+
+  final String quote;
+  final String author;
+  final void Function() onShareQuote;
+  final bool isSharing;
 
   @override
   State<QuoteTile> createState() => _QuoteTileState();
@@ -15,22 +26,40 @@ class _QuoteTileState extends State<QuoteTile> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Center(
-          child: Container(
-            padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(128, 0, 0, 0),
-              borderRadius: BorderRadius.circular(16)
-            ),
-            child: Text(
-              'Keep Going \n hi \n hi',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(5),
+              margin: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(128, 0, 0, 0),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                widget.quote,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                ),
               ),
             ),
-          ),
+            Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(128, 0, 0, 0),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                widget.author,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            )
+          ],
         ),
         Positioned(
           right: 10,
@@ -60,11 +89,16 @@ class _QuoteTileState extends State<QuoteTile> {
                   counter.toString(),
                   style: TextStyle(color: Colors.white),
                 ),
-                Icon(
-                  Icons.share,
-                  color: Colors.white,
-                  size: 36,
-                ),
+                widget.isSharing
+                    ? CircularProgressIndicator()
+                    : GestureDetector(
+                        onTap: widget.onShareQuote,
+                        child: Icon(
+                          Icons.share,
+                          color: Colors.white,
+                          size: 36,
+                        ),
+                      ),
               ],
             ),
           ),
