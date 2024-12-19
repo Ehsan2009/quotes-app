@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/components/quote_tile.dart';
 import 'package:quotes_app/data/quotes_data.dart';
-import 'package:quotes_app/providers/appearance_provider.dart';
+import 'package:quotes_app/providers/background_image_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -48,14 +47,14 @@ class _QuotesScreenState extends State<QuotesScreen> {
   Widget build(BuildContext context) {
     return Screenshot(
       controller: screenshotController,
-      child: Consumer<AppearanceProvider>(
-        builder: (context, appearanceProvider, child) {
+      child: Consumer<BackgroundImageProvider>(
+        builder: (context, backgroundImageProvider, child) {
           return SafeArea(
             child: Scaffold(
               body: Stack(
                 children: [
                   Image.network(
-                    appearanceProvider.imageUrl,
+                    backgroundImageProvider.currentImageUrl,
                     height: double.infinity,
                     fit: BoxFit.cover,
                   ),

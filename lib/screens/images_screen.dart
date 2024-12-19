@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:quotes_app/components/appearance_grid_item.dart';
-import 'package:quotes_app/providers/appearance_provider.dart';
+import 'package:quotes_app/components/image_grid_item.dart';
+import 'package:quotes_app/providers/background_image_provider.dart';
 import 'package:quotes_app/services/supabase_services.dart';
 
-class AppearanceScreen extends StatefulWidget {
-  const AppearanceScreen({super.key});
+class ImagesScreen extends StatefulWidget {
+  const ImagesScreen({super.key});
 
   @override
-  State<AppearanceScreen> createState() => _AppearanceScreenState();
+  State<ImagesScreen> createState() => _ImagesScreenState();
 }
 
-class _AppearanceScreenState extends State<AppearanceScreen> {
+class _ImagesScreenState extends State<ImagesScreen> {
   final supabaseServices = SupabaseServices();
   List<String> images = [];
 
@@ -26,18 +27,15 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
     setState(() {
       images = fetchedImages
           .where((url) =>
-              url != null &&
-              url.isNotEmpty &&
-              !url.contains('.emptyFolderPlaceholder'))
+              url.isNotEmpty && !url.contains('.emptyFolderPlaceholder'))
           .toList();
-      ;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppearanceProvider>(
-      builder: (context, appearanceProvider, child) {
+    return Consumer<BackgroundImageProvider>(
+      builder: (context, backgroundImageProvider, child) {
         return Scaffold(
           appBar: AppBar(
             title: Text('نمایه‌ها'),
@@ -54,11 +52,15 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                 mainAxisSpacing: 14,
               ),
               itemBuilder: (context, index) {
-                return AppearanceGridItem(
+                final imagesBox = Hive.box('images');
+                final unlockedImages = List<String>.from(imagesBox.get('unlocked_images'));
+                
+                return ImageGridItem(
                   imageUrl: images[index],
-                  isSelected: appearanceProvider.imageUrl == images[index]
+                  isSelected: backgroundImageProvider.currentImageUrl == images[index]
                       ? true
                       : false,
+                  isUnlocked: unlockedImages.contains(images[index]),
                 );
               },
             ),

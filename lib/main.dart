@@ -4,7 +4,7 @@ import 'package:persian_fonts/persian_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/config/app_router.dart';
 import 'package:quotes_app/constants.dart';
-import 'package:quotes_app/providers/appearance_provider.dart';
+import 'package:quotes_app/providers/background_image_provider.dart';
 import 'package:quotes_app/providers/theme_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,11 +21,17 @@ void main() async {
   await Hive.initFlutter();
 
   // open the box
-  final appearanceBox = await Hive.openBox<String>('appearance');
+  final imagesBox = await Hive.openBox('images');
 
-  if (appearanceBox.isEmpty) {
-    await appearanceBox.put(
-        'background_image', 'https://acurzzhfvsuymnvoafei.supabase.co/storage/v1/object/public/images/pexels-yunustug-29821056.jpg');
+  if (imagesBox.isEmpty) {
+    await imagesBox.put(
+      'background_image',
+      'https://acurzzhfvsuymnvoafei.supabase.co/storage/v1/object/public/images/pexels-8moments-1266810_11zon.jpg',
+    );
+    await imagesBox.put(
+      'unlocked_images',
+      ['https://acurzzhfvsuymnvoafei.supabase.co/storage/v1/object/public/images/pexels-8moments-1266810_11zon.jpg'],
+    );
   }
 
   SystemChrome.setPreferredOrientations([
@@ -35,7 +41,8 @@ void main() async {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ThemeProvider()),
-          ChangeNotifierProvider(create: (context) => AppearanceProvider()),
+          ChangeNotifierProvider(
+              create: (context) => BackgroundImageProvider()),
         ],
         child: const MyApp(),
       ),
