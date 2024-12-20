@@ -7,6 +7,8 @@ class TabsScreen extends StatefulWidget {
 
   final StatefulNavigationShell navigationShell;
 
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   State<TabsScreen> createState() => _TabsScreenState();
 }
@@ -22,6 +24,7 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: TabsScreen.scaffoldKey,
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: widget.navigationShell,
       bottomNavigationBar: Container(

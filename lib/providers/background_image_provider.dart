@@ -10,4 +10,11 @@ class BackgroundImageProvider extends ChangeNotifier {
     await imagesBox.put('background_image', imageUrl);
     notifyListeners();
   }
+
+  Future<void> unlockImage(String imageUrl) async {
+    final unlockedImages = imagesBox.get('unlocked_images');
+
+    await imagesBox.put('unlocked_images', [...unlockedImages, imageUrl]);
+    notifyListeners();
+  }
 }

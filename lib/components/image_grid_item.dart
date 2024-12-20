@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quotes_app/components/bottom_sheet_widget.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
+import 'package:quotes_app/screens/tabs_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ImageGridItem extends StatelessWidget {
@@ -19,44 +21,22 @@ class ImageGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (isSelected) return;
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return GestureDetector(
-              onTap: () async {
-                // Access the existing AppearanceProvider instance
-                final backgroundImageProvider =
-                    Provider.of<BackgroundImageProvider>(context,
-                        listen: false);
 
-                // Toggle appearance (change background image)
-                await backgroundImageProvider.toggleImage(imageUrl);
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'تغییر نمایه',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
-                ),
-              ),
-            );
-          },
-        );
+        final backgroundImageProvider =
+            Provider.of<BackgroundImageProvider>(context, listen: false);
+
+        await backgroundImageProvider.toggleImage(imageUrl);
+
+        if (!isUnlocked) {
+          showModalBottomSheet(
+            context: TabsScreen.scaffoldKey.currentContext!,
+            builder: (ctx) {
+              return BottomSheetWidget(imageUrl: imageUrl);
+            },
+          );
+        }
       },
       child: Container(
         padding: const EdgeInsets.all(5),
@@ -95,13 +75,14 @@ class ImageGridItem extends StatelessWidget {
               ),
               if (!isUnlocked)
                 Positioned(
-                  top: -2,
-                  right: -2,
+                  top: 0,
+                  right: 0,
                   child: Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(128, 0, 0, 0),
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16)),
+                      borderRadius:
+                          BorderRadius.only(bottomLeft: Radius.circular(16)),
                     ),
                     child: Icon(
                       Icons.lock,

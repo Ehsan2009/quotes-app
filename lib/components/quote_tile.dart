@@ -70,7 +70,7 @@ class _QuoteTileState extends State<QuoteTile> {
                 color: Color.fromARGB(128, 0, 0, 0),
                 borderRadius: BorderRadius.circular(16)),
             child: Column(
-              spacing: 5,
+              spacing: 12,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -84,10 +84,6 @@ class _QuoteTileState extends State<QuoteTile> {
                     color: isLiked ? Colors.red : Colors.white,
                     size: 36,
                   ),
-                ),
-                Text(
-                  counter.toString(),
-                  style: TextStyle(color: Colors.white),
                 ),
                 widget.isSharing
                     ? CircularProgressIndicator()
