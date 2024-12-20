@@ -61,11 +61,19 @@ class _TabsScreenState extends State<TabsScreen> {
                 },
               ),
               GButton(
+                key: Key('Favorites'),
+                icon: Icons.favorite,
+                text: 'علاقه‌مندی‌ها',
+                onPressed: () {
+                  onTap(2);
+                },
+              ),
+              GButton(
                 key: Key('Settings'),
                 icon: Icons.settings,
                 text: 'تنظیمات',
                 onPressed: () {
-                  onTap(2);
+                  onTap(3);
                 },
               ),
             ],

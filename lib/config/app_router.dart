@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quotes_app/screens/favorites_screen.dart';
 import 'package:quotes_app/screens/quotes_screen.dart';
 import 'package:quotes_app/screens/settings_screen.dart';
 import 'package:quotes_app/screens/tabs_screen.dart';
@@ -30,6 +31,14 @@ final router = GoRouter(
             GoRoute(
               path: '/images_screen',
               builder: (context, state) => const ImagesScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/favorites_screen',
+              builder: (context, state) => const FavoritesScreen(),
             ),
           ],
         ),

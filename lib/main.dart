@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/config/app_router.dart';
-import 'package:quotes_app/constants.dart';
+import 'package:quotes_app/app_constants.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
 import 'package:quotes_app/providers/theme_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -13,8 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    url: Constants.supabaseUrl,
-    anonKey: Constants.supabaseAnonKey,
+    url: AppConstants.supabaseUrl,
+    anonKey: AppConstants.supabaseAnonKey,
   );
 
   // initialize hive
@@ -26,11 +26,11 @@ void main() async {
   if (imagesBox.isEmpty) {
     await imagesBox.put(
       'background_image',
-      'https://acurzzhfvsuymnvoafei.supabase.co/storage/v1/object/public/images/pexels-8moments-1266810_11zon.jpg',
+      AppConstants.defaultBackgroundImageUrl,
     );
     await imagesBox.put(
       'unlocked_images',
-      ['https://acurzzhfvsuymnvoafei.supabase.co/storage/v1/object/public/images/pexels-8moments-1266810_11zon.jpg'],
+      [AppConstants.defaultBackgroundImageUrl],
     );
   }
 
