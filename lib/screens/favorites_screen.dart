@@ -20,7 +20,10 @@ class FavoritesScreen extends StatelessWidget {
         builder: (context, Box<Quote> box, child) {
           if (box.isEmpty) {
             return Center(
-              child: Text('هیچ نقل‌قولی در لیست علاقه‌مندی‌ها وجود ندارد'),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text('هیچ نقل‌قولی در لیست علاقه‌مندی‌ها وجود ندارد', style: TextStyle(fontSize: 16), textAlign: TextAlign.center,),
+              ),
             );
           }
           return Padding(

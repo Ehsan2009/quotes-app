@@ -68,8 +68,8 @@ class FavoriteGridItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Color.fromARGB(128, 0, 0, 0),
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(14),
-                  topRight: Radius.circular(14),
+                  bottomLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
                 ),
               ),
               child: Icon(
