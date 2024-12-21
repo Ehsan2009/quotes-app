@@ -49,39 +49,37 @@ class _QuotesScreenState extends State<QuotesScreen> {
       controller: screenshotController,
       child: Consumer<BackgroundImageProvider>(
         builder: (context, backgroundImageProvider, child) {
-          return SafeArea(
-            child: Scaffold(
-              body: Stack(
-                children: [
-                  Image.network(
-                    backgroundImageProvider.currentImageUrl,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                  Center(
-                    child: CarouselSlider.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index, realIndex) {
-                        return QuoteTile(
-                          quote: shuffledQuotes[index],
-                          onShareQuote: shareQuote,
-                          isSharing: isSharing,
-                        );
-                      },
-                      options: CarouselOptions(
-                        scrollDirection: Axis.vertical,
-                        aspectRatio: 16 / 9,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 60),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        viewportFraction: 1,
-                        autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        height: double.infinity,
-                      ),
+          return Scaffold(
+            body: Stack(
+              children: [
+                Image.network(
+                  backgroundImageProvider.currentImageUrl,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+                Center(
+                  child: CarouselSlider.builder(
+                    itemCount: shuffledQuotes.length,
+                    itemBuilder: (context, index, realIndex) {
+                      return QuoteTile(
+                        quote: shuffledQuotes[index],
+                        onShareQuote: shareQuote,
+                        isSharing: isSharing,
+                      );
+                    },
+                    options: CarouselOptions(
+                      scrollDirection: Axis.vertical,
+                      aspectRatio: 16 / 9,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 60),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      viewportFraction: 1,
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      height: double.infinity,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

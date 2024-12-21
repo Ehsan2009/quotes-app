@@ -39,9 +39,9 @@ class FavoriteGridItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  quote.text,
+                  quote.text.replaceAll('.', ''),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 16),
                 ),
                 Text(
                   quote.author,
@@ -61,7 +61,6 @@ class FavoriteGridItem extends StatelessWidget {
           child: GestureDetector(
             onTap: () async {
               await favoritesBox.deleteAt(index);
-              print('hi');
             },
             child: Container(
               padding: EdgeInsets.all(5),

@@ -27,7 +27,7 @@ class _QuoteTileState extends State<QuoteTile> {
       valueListenable: favoritesBox.listenable(),
       builder: (context, Box<Quote> box, child) {
         final isFavorite = box.containsKey(widget.quote.id);
-        
+
         return Stack(
           children: [
             Column(
@@ -41,7 +41,7 @@ class _QuoteTileState extends State<QuoteTile> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
-                    widget.quote.text,
+                    widget.quote.text.replaceAll('.', ''),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,

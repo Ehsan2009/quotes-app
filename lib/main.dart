@@ -58,6 +58,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         final themeProvider = Provider.of<ThemeProvider>(context);

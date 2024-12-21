@@ -22,7 +22,11 @@ class FavoritesScreen extends StatelessWidget {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Text('هیچ نقل‌قولی در لیست علاقه‌مندی‌ها وجود ندارد', style: TextStyle(fontSize: 16), textAlign: TextAlign.center,),
+                child: Text(
+                  'هیچ نقل‌قولی در لیست علاقه‌مندی‌ها وجود ندارد',
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
               ),
             );
           }
