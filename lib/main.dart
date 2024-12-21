@@ -4,6 +4,7 @@ import 'package:persian_fonts/persian_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/config/app_router.dart';
 import 'package:quotes_app/app_constants.dart';
+import 'package:quotes_app/models/quote.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
 import 'package:quotes_app/providers/theme_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -17,11 +18,12 @@ void main() async {
     anonKey: AppConstants.supabaseAnonKey,
   );
 
-  // initialize hive
   await Hive.initFlutter();
 
-  // open the box
+  Hive.registerAdapter(QuoteAdapter());
+
   final imagesBox = await Hive.openBox('images');
+  await Hive.openBox<Quote>('favoriteQuotes');
 
   if (imagesBox.isEmpty) {
     await imagesBox.put(
@@ -42,7 +44,8 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (context) => ThemeProvider()),
           ChangeNotifierProvider(
-              create: (context) => BackgroundImageProvider()),
+            create: (context) => BackgroundImageProvider(),
+          ),
         ],
         child: const MyApp(),
       ),

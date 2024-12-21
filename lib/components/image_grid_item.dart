@@ -24,10 +24,12 @@ class ImageGridItem extends StatelessWidget {
       onTap: () async {
         if (isSelected) return;
 
-        final backgroundImageProvider =
-            Provider.of<BackgroundImageProvider>(context, listen: false);
+        if (isUnlocked) {
+          final backgroundImageProvider =
+              Provider.of<BackgroundImageProvider>(context, listen: false);
 
-        await backgroundImageProvider.toggleImage(imageUrl);
+          await backgroundImageProvider.toggleImage(imageUrl);
+        }
 
         if (!isUnlocked) {
           showModalBottomSheet(

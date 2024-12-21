@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:quotes_app/models/quote.dart';
 
 class QuoteTile extends StatefulWidget {
   const QuoteTile({
     super.key,
     required this.quote,
-    required this.author,
     required this.onShareQuote,
     required this.isSharing,
   });
 
-  final String quote;
-  final String author;
+  final Quote quote;
   final void Function() onShareQuote;
   final bool isSharing;
 
@@ -19,87 +19,100 @@ class QuoteTile extends StatefulWidget {
 }
 
 class _QuoteTileState extends State<QuoteTile> {
-  bool isLiked = false;
-  int counter = 0;
+  final favoritesBox = Hive.box<Quote>('favoriteQuotes');
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return ValueListenableBuilder(
+      valueListenable: favoritesBox.listenable(),
+      builder: (context, Box<Quote> box, child) {
+        final isFavorite = box.containsKey(widget.quote.id);
+        
+        return Stack(
           children: [
-            Container(
-              padding: EdgeInsets.all(5),
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(128, 0, 0, 0),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                widget.quote,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(128, 0, 0, 0),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                widget.author,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            )
-          ],
-        ),
-        Positioned(
-          right: 10,
-          bottom: 100,
-          child: Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                color: Color.fromARGB(128, 0, 0, 0),
-                borderRadius: BorderRadius.circular(16)),
-            child: Column(
-              spacing: 12,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isLiked ? counter-- : counter++;
-                      isLiked = !isLiked;
-                    });
-                  },
-                  child: Icon(
-                    isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: isLiked ? Colors.red : Colors.white,
-                    size: 36,
+                Container(
+                  padding: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(128, 0, 0, 0),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    widget.quote.text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                    ),
                   ),
                 ),
-                widget.isSharing
-                    ? CircularProgressIndicator()
-                    : GestureDetector(
-                        onTap: widget.onShareQuote,
-                        child: Icon(
-                          Icons.share,
-                          color: Colors.white,
-                          size: 36,
-                        ),
-                      ),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(128, 0, 0, 0),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    widget.quote.author,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                )
               ],
             ),
-          ),
-        ),
-      ],
+            Positioned(
+              right: 10,
+              bottom: 100,
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(128, 0, 0, 0),
+                    borderRadius: BorderRadius.circular(16)),
+                child: Column(
+                  spacing: 12,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        if (isFavorite) {
+                          favoritesBox.delete(widget.quote.id);
+                        } else {
+                          favoritesBox.put(
+                            widget.quote.id,
+                            Quote(
+                              text: widget.quote.text,
+                              author: widget.quote.author,
+                            ),
+                          );
+                        }
+                      },
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : Colors.white,
+                        size: 36,
+                      ),
+                    ),
+                    widget.isSharing
+                        ? CircularProgressIndicator()
+                        : GestureDetector(
+                            onTap: widget.onShareQuote,
+                            child: Icon(
+                              Icons.share,
+                              color: Colors.white,
+                              size: 36,
+                            ),
+                          ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

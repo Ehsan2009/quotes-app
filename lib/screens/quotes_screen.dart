@@ -19,30 +19,30 @@ class QuotesScreen extends StatefulWidget {
 
 class _QuotesScreenState extends State<QuotesScreen> {
   final ScreenshotController screenshotController = ScreenshotController();
-    var isSharing = false;
+  var isSharing = false;
+  final shuffledQuotes = [...quotesList]..shuffle();
 
-    void shareQuote() async {
-      setState(() {
-        isSharing = true;
-      });
-      
-      // Capture the screenshot
-      Uint8List? image = await screenshotController.capture();
-      if (image != null) {
-        // Save and share the screenshot
-        final directory = await getTemporaryDirectory();
-        final imagePath = File('${directory.path}/screenshot.png');
-        await imagePath.writeAsBytes(image);
+  void shareQuote() async {
+    setState(() {
+      isSharing = true;
+    });
 
-        Share.shareXFiles([XFile(imagePath.path)],
-            text: "Check out this quote!");
-      }
+    // Capture the screenshot
+    Uint8List? image = await screenshotController.capture();
+    if (image != null) {
+      // Save and share the screenshot
+      final directory = await getTemporaryDirectory();
+      final imagePath = File('${directory.path}/screenshot.png');
+      await imagePath.writeAsBytes(image);
 
-      setState(() {
-        isSharing = false;
-      });
+      Share.shareXFiles([XFile(imagePath.path)], text: "Check out this quote!");
     }
-  
+
+    setState(() {
+      isSharing = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Screenshot(
@@ -62,11 +62,8 @@ class _QuotesScreenState extends State<QuotesScreen> {
                     child: CarouselSlider.builder(
                       itemCount: 10,
                       itemBuilder: (context, index, realIndex) {
-                        final shuffledQuotes = [...quotesData]..shuffle();
-
                         return QuoteTile(
-                          quote: shuffledQuotes[index]['quote']!,
-                          author: shuffledQuotes[index]['author']!,
+                          quote: shuffledQuotes[index],
                           onShareQuote: shareQuote,
                           isSharing: isSharing,
                         );
