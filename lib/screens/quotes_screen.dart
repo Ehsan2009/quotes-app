@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -52,8 +53,8 @@ class _QuotesScreenState extends State<QuotesScreen> {
           return Scaffold(
             body: Stack(
               children: [
-                Image.network(
-                  backgroundImageProvider.currentImageUrl,
+                CachedNetworkImage(
+                  imageUrl: backgroundImageProvider.currentImageUrl,
                   height: double.infinity,
                   fit: BoxFit.cover,
                 ),

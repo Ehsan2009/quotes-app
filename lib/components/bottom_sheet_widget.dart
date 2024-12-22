@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
@@ -38,11 +39,47 @@ class BottomSheetWidget extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  imageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
                   height: 330,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, progress) {
+                    final downloaded = progress.downloaded.toDouble();
+                    final total = progress.totalSize?.toDouble() ?? 1.0;
+                    final percentage = (downloaded / total) * 100;
+
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          color: Colors.grey.shade700,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(
+                              value: downloaded / total,
+                              color: Colors.blue,
+                              strokeWidth: 2,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              '${percentage.toStringAsFixed(0)}%',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                  maxHeightDiskCache: 1000,
+                  errorWidget: (context, url, error) => Center(
+                    child: Icon(Icons.error, color: Colors.red),
+                  ),
                 ),
               ),
             ),

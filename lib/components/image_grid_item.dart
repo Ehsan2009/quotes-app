@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:quotes_app/components/bottom_sheet_widget.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
 import 'package:quotes_app/screens/tabs_screen.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ImageGridItem extends StatelessWidget {
   const ImageGridItem({
@@ -60,16 +59,38 @@ class ImageGridItem extends StatelessWidget {
                 height: double.infinity,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: Colors.grey.shade700,
-                  highlightColor: Colors.grey.shade500,
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: Colors
-                        .grey.shade700, // A solid color to simulate the image
-                  ),
-                ),
+                progressIndicatorBuilder: (context, url, progress) {
+                  final downloaded = progress.downloaded.toDouble();
+                  final total = progress.totalSize?.toDouble() ?? 1.0;
+                  final percentage = (downloaded / total) * 100;
+
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        color: Colors.grey.shade700,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: downloaded / total,
+                            color: Colors.blue,
+                            strokeWidth: 2,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            '${percentage.toStringAsFixed(0)}%',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
                 maxHeightDiskCache: 1000,
                 errorWidget: (context, url, error) => Center(
                   child: Icon(Icons.error, color: Colors.red),

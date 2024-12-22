@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/components/my_list_tile.dart';
 import 'package:quotes_app/providers/theme_provider.dart';
@@ -14,7 +15,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    bool isDarkMode = themeProvider.isDarkMode();
+    // bool isDarkMode = themeProvider.isDarkMode();
+    final appModeBox = Hive.box('appMode');
+    final isDarkMode = appModeBox.get('isDarkMode');
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -41,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: 'حالت تیره',
                 hasArrowForward: false,
                 switchValue: isDarkMode ? true : false,
-                switchOnChanged: (isChecked) {
+                switchOnChanged: (isChecked) async {
                   themeProvider.toggleTheme();
                 },
               ),

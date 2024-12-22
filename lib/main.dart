@@ -24,6 +24,7 @@ void main() async {
 
   final imagesBox = await Hive.openBox('images');
   await Hive.openBox<Quote>('favoriteQuotes');
+  final appModeBox = await Hive.openBox('appMode');
 
   if (imagesBox.isEmpty) {
     await imagesBox.put(
@@ -34,6 +35,10 @@ void main() async {
       'unlocked_images',
       [AppConstants.defaultBackgroundImageUrl],
     );
+  }
+
+  if (appModeBox.isEmpty) {
+    await appModeBox.put('isDarkMode', false);
   }
 
   SystemChrome.setPreferredOrientations([
@@ -62,8 +67,9 @@ class MyApp extends StatelessWidget {
     
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        final themeProvider = Provider.of<ThemeProvider>(context);
-        bool isDarkMode = themeProvider.isDarkMode();
+        // bool isDarkMode = themeProvider.isDarkMode();
+        final appModeBox = Hive.box('appMode');
+        final isDarkMode = appModeBox.get('isDarkMode');
 
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
