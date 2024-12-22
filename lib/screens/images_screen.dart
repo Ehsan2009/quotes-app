@@ -38,7 +38,7 @@ class _ImagesScreenState extends State<ImagesScreen> {
       builder: (context, backgroundImageProvider, child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('نمایه‌ها'),
+            title: Text('پس‌زمینه‌ها'),
             centerTitle: true,
           ),
           body: Padding(

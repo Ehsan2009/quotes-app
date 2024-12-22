@@ -1,5 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:myket_iap/myket_iap.dart';
+import 'package:myket_iap/util/iab_result.dart';
+import 'package:myket_iap/util/purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
 
@@ -109,18 +112,41 @@ class BottomSheetWidget extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    final backgroundImageProvider =
-                        Provider.of<BackgroundImageProvider>(context,
-                            listen: false);
+                    // Trigger the in-app purchase to unlock the image
+                    try {
+                      final result = await MyketIAP.launchPurchaseFlow(
+                        sku: 'com.ganjsokhan.backgrounds',
+                      );
 
-                    await backgroundImageProvider.unlockImage(imageUrl);
+                      IabResult purchaseResult = result[MyketIAP.RESULT];
+                      // Purchase purchase = result[MyketIAP.PURCHASE];
 
-                    Navigator.of(context).pop();
+                      if (purchaseResult.isSuccess()) {
+                        // Successfully purchased the item
+                        final backgroundImageProvider =
+                            Provider.of<BackgroundImageProvider>(context,
+                                listen: false);
+                        await backgroundImageProvider.unlockImage(imageUrl);
+                        Navigator.of(context).pop();
+                      } else {
+                        // Handle the failed purchase scenario
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Directionality(
+                              textDirection: TextDirection
+                                  .rtl, // Set your text direction here
+                              child:
+                                  Text("پرداخت ناموفق بود. دوباره تلاش کنید"),
+                            ),
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      // Handle errors
+                      print('Error during purchase: $e');
+                    }
                   },
-                  child: const Text(
-                    "همین حالا باز کنید",
-                    style: TextStyle(),
-                  ),
+                  child: const Text("همین حالا باز کنید"),
                 ),
                 OutlinedButton(
                   onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myket_iap/myket_iap.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/config/app_router.dart';
@@ -17,6 +18,8 @@ void main() async {
     url: AppConstants.supabaseUrl,
     anonKey: AppConstants.supabaseAnonKey,
   );
+
+  await MyketIAP.init(rsaKey: AppConstants.rsaKey);
 
   await Hive.initFlutter();
 

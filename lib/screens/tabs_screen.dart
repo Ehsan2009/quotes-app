@@ -55,7 +55,7 @@ class _TabsScreenState extends State<TabsScreen> {
               GButton(
                 key: Key('Themes'),
                 icon: Icons.format_paint_outlined,
-                text: 'نمایه‌ها ',
+                text: 'پس‌زمینه‌ها',
                 onPressed: () {
                   onTap(1);
                 },
