@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myket_iap/myket_iap.dart';
 import 'package:myket_iap/util/iab_result.dart';
-import 'package:myket_iap/util/purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
 
