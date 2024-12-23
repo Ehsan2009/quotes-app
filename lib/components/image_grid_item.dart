@@ -72,22 +72,23 @@ class ImageGridItem extends StatelessWidget {
                         height: double.infinity,
                         color: Colors.grey.shade700,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(
-                            value: downloaded / total,
-                            color: Colors.blue,
-                            strokeWidth: 2,
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            '${percentage.toStringAsFixed(0)}%',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                        ],
-                      ),
+                      if (percentage.toStringAsFixed(0) != '0')
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(
+                              value: downloaded / total,
+                              color: Colors.blue,
+                              strokeWidth: 2,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              '${percentage.toStringAsFixed(0)}%',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ],
+                        ),
                     ],
                   );
                 },

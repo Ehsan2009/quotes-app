@@ -36,7 +36,7 @@ class _QuotesScreenState extends State<QuotesScreen> {
       final imagePath = File('${directory.path}/screenshot.png');
       await imagePath.writeAsBytes(image);
 
-      Share.shareXFiles([XFile(imagePath.path)], text: "Check out this quote!");
+      Share.shareXFiles([XFile(imagePath.path)]);
     }
 
     setState(() {
