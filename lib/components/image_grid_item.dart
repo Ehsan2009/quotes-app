@@ -11,11 +11,13 @@ class ImageGridItem extends StatelessWidget {
     required this.imageUrl,
     required this.isSelected,
     required this.isUnlocked,
+    required this.index,
   });
 
   final String imageUrl;
   final bool isSelected;
   final bool isUnlocked;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,10 @@ class ImageGridItem extends StatelessWidget {
           showModalBottomSheet(
             context: TabsScreen.scaffoldKey.currentContext!,
             builder: (ctx) {
-              return BottomSheetWidget(imageUrl: imageUrl);
+              return BottomSheetWidget(
+                imageUrl: imageUrl,
+                index: index,
+              );
             },
           );
         }
@@ -92,7 +97,10 @@ class ImageGridItem extends StatelessWidget {
                     ],
                   );
                 },
-                maxHeightDiskCache: 1000,
+                fadeInDuration:
+                    Duration(milliseconds: 100), // Reduce fade-in duration
+                maxWidthDiskCache: 500, // Optimize for smaller resolutions
+                maxHeightDiskCache: 500,
                 errorWidget: (context, url, error) => Center(
                   child: Icon(Icons.error, color: Colors.red),
                 ),

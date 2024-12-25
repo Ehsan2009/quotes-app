@@ -61,6 +61,7 @@ class _ImagesScreenState extends State<ImagesScreen> {
                       ? true
                       : false,
                   isUnlocked: unlockedImages.contains(images[index]),
+                  index: index,
                 );
               },
             ),

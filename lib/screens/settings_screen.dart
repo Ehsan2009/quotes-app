@@ -3,21 +3,31 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_app/components/my_list_tile.dart';
 import 'package:quotes_app/providers/theme_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    // bool isDarkMode = themeProvider.isDarkMode();
     final appModeBox = Hive.box('appMode');
     final isDarkMode = appModeBox.get('isDarkMode');
+
+    void openMyketPage() async {
+      const myketIntentUrl =
+          'myket://details?id=com.example.quotes_app'; // Replace with your package name
+      const myketWebUrl =
+          'https://myket.ir/app/com.example.quotes_app'; // Fallback URL for browser
+
+      if (await canLaunchUrl(Uri.parse(myketIntentUrl))) {
+        // Opens Myket if the app is installed
+        await launchUrl(Uri.parse(myketIntentUrl));
+      } else {
+        // Opens the Myket page in the browser if the app is not installed
+        await launchUrl(Uri.parse(myketWebUrl));
+      }
+    }
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -33,7 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             spacing: 8,
             children: [
               MyListTile(
-                onTap: () {},
+                onTap: openMyketPage,
                 icon: Icons.chat,
                 title: 'دیدگاه‌ها و امتیازات',
                 hasArrowForward: true,

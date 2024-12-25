@@ -9,9 +9,11 @@ class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({
     super.key,
     required this.imageUrl,
+    required this.index,
   });
 
   final String imageUrl;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,10 @@ class BottomSheetWidget extends StatelessWidget {
             height: 500,
             width: double.infinity,
             fit: BoxFit.cover,
-            maxHeightDiskCache: 1000,
+            fadeInDuration:
+                Duration(milliseconds: 100), // Reduce fade-in duration
+            maxWidthDiskCache: 500, // Optimize for smaller resolutions
+            maxHeightDiskCache: 500,
             errorWidget: (context, url, error) => Center(
               child: Icon(Icons.error, color: Colors.red),
             ),
@@ -41,7 +46,7 @@ class BottomSheetWidget extends StatelessWidget {
         Positioned(
           bottom: 0,
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: Color.fromARGB(128, 0, 0, 0),
               borderRadius: BorderRadius.only(
@@ -65,7 +70,7 @@ class BottomSheetWidget extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 16),
-          
+
                 // Buttons for actions
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -76,12 +81,12 @@ class BottomSheetWidget extends StatelessWidget {
                         // Trigger the in-app purchase to unlock the image
                         try {
                           final result = await MyketIAP.launchPurchaseFlow(
-                            sku: 'com.ganjsokhan.backgrounds',
+                            sku: 'background$index',
                           );
-          
+
                           IabResult purchaseResult = result[MyketIAP.RESULT];
                           // Purchase purchase = result[MyketIAP.PURCHASE];
-          
+
                           if (purchaseResult.isSuccess()) {
                             // Successfully purchased the item
                             final backgroundImageProvider =
@@ -115,9 +120,7 @@ class BottomSheetWidget extends StatelessWidget {
                       },
                       child: Text(
                         "لغو",
-                        style: TextStyle(
-                          color: Colors.white
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ],
