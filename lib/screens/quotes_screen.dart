@@ -59,8 +59,6 @@ class _QuotesScreenState extends State<QuotesScreen> {
                   fit: BoxFit.cover,
                   fadeInDuration:
                       Duration(milliseconds: 100), // Reduce fade-in duration
-                  maxWidthDiskCache: 500, // Optimize for smaller resolutions
-                  maxHeightDiskCache: 500,
                 ),
                 Center(
                   child: CarouselSlider.builder(

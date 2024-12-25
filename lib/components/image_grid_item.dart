@@ -62,13 +62,13 @@ class ImageGridItem extends StatelessWidget {
               CachedNetworkImage(
                 imageUrl: imageUrl,
                 height: double.infinity,
-                width: double.infinity,
+                // width: double.infinity,
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, progress) {
                   final downloaded = progress.downloaded.toDouble();
                   final total = progress.totalSize?.toDouble() ?? 1.0;
                   final percentage = (downloaded / total) * 100;
-
+              
                   return Stack(
                     alignment: Alignment.center,
                     children: [
@@ -99,8 +99,6 @@ class ImageGridItem extends StatelessWidget {
                 },
                 fadeInDuration:
                     Duration(milliseconds: 100), // Reduce fade-in duration
-                maxWidthDiskCache: 500, // Optimize for smaller resolutions
-                maxHeightDiskCache: 500,
                 errorWidget: (context, url, error) => Center(
                   child: Icon(Icons.error, color: Colors.red),
                 ),

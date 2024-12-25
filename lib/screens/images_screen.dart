@@ -36,6 +36,12 @@ class _ImagesScreenState extends State<ImagesScreen> {
   Widget build(BuildContext context) {
     return Consumer<BackgroundImageProvider>(
       builder: (context, backgroundImageProvider, child) {
+        print(images.length);
+        print(images[0]);
+        final imagesBox = Hive.box('images');
+        final unlockedImages =
+            List<String>.from(imagesBox.get('unlocked_images'));
+
         return Scaffold(
           appBar: AppBar(
             title: Text('پس‌زمینه‌ها'),
@@ -52,14 +58,12 @@ class _ImagesScreenState extends State<ImagesScreen> {
                 mainAxisSpacing: 14,
               ),
               itemBuilder: (context, index) {
-                final imagesBox = Hive.box('images');
-                final unlockedImages = List<String>.from(imagesBox.get('unlocked_images'));
-                
                 return ImageGridItem(
                   imageUrl: images[index],
-                  isSelected: backgroundImageProvider.currentImageUrl == images[index]
-                      ? true
-                      : false,
+                  isSelected:
+                      backgroundImageProvider.currentImageUrl == images[index]
+                          ? true
+                          : false,
                   isUnlocked: unlockedImages.contains(images[index]),
                   index: index,
                 );
