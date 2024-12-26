@@ -12,9 +12,12 @@ class ImagesScreen extends StatefulWidget {
   State<ImagesScreen> createState() => _ImagesScreenState();
 }
 
-class _ImagesScreenState extends State<ImagesScreen> {
+class _ImagesScreenState extends State<ImagesScreen> with AutomaticKeepAliveClientMixin<ImagesScreen> {
   final supabaseServices = SupabaseServices();
   List<String> images = [];
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -24,24 +27,26 @@ class _ImagesScreenState extends State<ImagesScreen> {
 
   void getImages() async {
     final fetchedImages = await supabaseServices.fetchImages();
-    setState(() {
-      images = fetchedImages
-          .where((url) =>
-              url.isNotEmpty && !url.contains('.emptyFolderPlaceholder'))
-          .toList();
-    });
+     setState(() {
+    images = fetchedImages
+        .where((url) =>
+            url.isNotEmpty && 
+            !url.contains('.emptyFolderPlaceholder') && 
+            !url.endsWith('/')) // Ensure the URL ends with a file name (with an extension)
+        .toList();
+  });
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Consumer<BackgroundImageProvider>(
       builder: (context, backgroundImageProvider, child) {
-        print(images.length);
-        print(images[0]);
         final imagesBox = Hive.box('images');
         final unlockedImages =
             List<String>.from(imagesBox.get('unlocked_images'));
 
+        print(images);
         return Scaffold(
           appBar: AppBar(
             title: Text('پس‌زمینه‌ها'),

@@ -5,7 +5,7 @@ import 'package:quotes_app/components/bottom_sheet_widget.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
 import 'package:quotes_app/screens/tabs_screen.dart';
 
-class ImageGridItem extends StatelessWidget {
+class ImageGridItem extends StatefulWidget {
   const ImageGridItem({
     super.key,
     required this.imageUrl,
@@ -20,25 +20,36 @@ class ImageGridItem extends StatelessWidget {
   final int index;
 
   @override
+  State<ImageGridItem> createState() => _ImageGridItemState();
+}
+
+class _ImageGridItemState extends State<ImageGridItem>
+    with AutomaticKeepAliveClientMixin<ImageGridItem> {
+      
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return GestureDetector(
       onTap: () async {
-        if (isSelected) return;
+        if (widget.isSelected) return;
 
-        if (isUnlocked) {
+        if (widget.isUnlocked) {
           final backgroundImageProvider =
               Provider.of<BackgroundImageProvider>(context, listen: false);
 
-          await backgroundImageProvider.toggleImage(imageUrl);
+          await backgroundImageProvider.toggleImage(widget.imageUrl);
         }
 
-        if (!isUnlocked) {
+        if (!widget.isUnlocked) {
           showModalBottomSheet(
             context: TabsScreen.scaffoldKey.currentContext!,
             builder: (ctx) {
               return BottomSheetWidget(
-                imageUrl: imageUrl,
-                index: index,
+                imageUrl: widget.imageUrl,
+                index: widget.index,
               );
             },
           );
@@ -46,7 +57,7 @@ class ImageGridItem extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(5),
-        decoration: isSelected
+        decoration: widget.isSelected
             ? BoxDecoration(
                 border: Border.all(color: Colors.green.shade900, width: 1),
                 borderRadius: BorderRadius.circular(16),
@@ -60,7 +71,7 @@ class ImageGridItem extends StatelessWidget {
           child: Stack(
             children: [
               CachedNetworkImage(
-                imageUrl: imageUrl,
+                imageUrl: widget.imageUrl,
                 height: double.infinity,
                 // width: double.infinity,
                 fit: BoxFit.cover,
@@ -68,7 +79,7 @@ class ImageGridItem extends StatelessWidget {
                   final downloaded = progress.downloaded.toDouble();
                   final total = progress.totalSize?.toDouble() ?? 1.0;
                   final percentage = (downloaded / total) * 100;
-              
+
                   return Stack(
                     alignment: Alignment.center,
                     children: [
@@ -103,7 +114,7 @@ class ImageGridItem extends StatelessWidget {
                   child: Icon(Icons.error, color: Colors.red),
                 ),
               ),
-              if (!isUnlocked)
+              if (!widget.isUnlocked)
                 Positioned(
                   top: 0,
                   right: 0,
