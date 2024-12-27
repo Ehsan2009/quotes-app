@@ -23,15 +23,9 @@ class ImageGridItem extends StatefulWidget {
   State<ImageGridItem> createState() => _ImageGridItemState();
 }
 
-class _ImageGridItemState extends State<ImageGridItem>
-    with AutomaticKeepAliveClientMixin<ImageGridItem> {
-      
-  @override
-  bool get wantKeepAlive => true;
-
+class _ImageGridItemState extends State<ImageGridItem> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return GestureDetector(
       onTap: () async {
         if (widget.isSelected) return;
@@ -73,7 +67,7 @@ class _ImageGridItemState extends State<ImageGridItem>
               CachedNetworkImage(
                 imageUrl: widget.imageUrl,
                 height: double.infinity,
-                // width: double.infinity,
+                width: double.infinity,
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, progress) {
                   final downloaded = progress.downloaded.toDouble();
@@ -108,6 +102,8 @@ class _ImageGridItemState extends State<ImageGridItem>
                     ],
                   );
                 },
+                maxHeightDiskCache: 1000,
+                maxWidthDiskCache: 1000,
                 fadeInDuration:
                     Duration(milliseconds: 100), // Reduce fade-in duration
                 errorWidget: (context, url, error) => Center(

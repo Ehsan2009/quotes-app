@@ -9,16 +9,9 @@ import 'package:quotes_app/models/quote.dart';
 import 'package:quotes_app/providers/background_image_provider.dart';
 import 'package:quotes_app/providers/theme_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Supabase.initialize(
-    url: AppConstants.supabaseUrl,
-    anonKey: AppConstants.supabaseAnonKey,
-  );
-
   await MyketIAP.init(rsaKey: AppConstants.rsaKey);
 
   await Hive.initFlutter();
@@ -66,11 +59,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
-    
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        // bool isDarkMode = themeProvider.isDarkMode();
         final appModeBox = Hive.box('appMode');
         final isDarkMode = appModeBox.get('isDarkMode');
 

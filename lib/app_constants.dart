@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static const supabaseUrl = 'https://acurzzhfvsuymnvoafei.supabase.co';
-  static const supabaseAnonKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjdXJ6emhmdnN1eW1udm9hZmVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ0OTMwNzAsImV4cCI6MjA1MDA2OTA3MH0.jlTQ7ElrkBN4qE3ZcFba92YtF-cG9R7YBAz1bSTXR48';
-
   static const rsaKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/ADCI4YR10lNtK85rxlMkoFMpVpRP/E0Ua+3cpt30ZCtr+VNxI6yqs5WX5NlfuJRRudVrPJ+btZ70PFNdyW/L2Brlq/fzegWDBaQRcAay2NnDvStzUbPcU91INHfs6eA5lNwGawzcxGYvsvPLVtNzQID8i6KJBvyl78tW0KxhEQIDAQAB';
   
   static const defaultBackgroundImageUrl =
